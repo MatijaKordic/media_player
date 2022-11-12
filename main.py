@@ -13,7 +13,7 @@ from mutagen.mp3 import MP3
 import time
 import regex as re
 
-# background = #254117 (Dark Forest Green)
+# background = "#254117"
 # COLOUR_PRIMARY = "#2e3f4f"
 # COLOUR_SECONDARY = "#293846"
 COLOUR_LIGHT_BACKGROUND = "#848482"

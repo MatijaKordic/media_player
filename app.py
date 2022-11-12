@@ -49,23 +49,23 @@ class Player(tk.Tk):
 
         width = 25
         height = 25
-        play_img = Image.open("/Users/matija/Desktop/Projects/media_player/assets/play.png").resize((width,height), Image.ANTIALIAS)
+        play_img = Image.open("/home/matija/github/media_player/assets/play.png").resize((width,height), Image.ANTIALIAS)
         self.play_img =  ImageTk.PhotoImage(play_img)
-        pause_img = Image.open("/Users/matija/Desktop/Projects/media_player/assets/pause.png").resize((width,height), Image.ANTIALIAS)
+        pause_img = Image.open("/home/matija/github/media_player/assets/pause.png").resize((width,height), Image.ANTIALIAS)
         self.pause_img =  ImageTk.PhotoImage(pause_img)
-        stop_img = Image.open("/Users/matija/Desktop/Projects/media_player/assets/stop.png").resize((width,height), Image.ANTIALIAS)
+        stop_img = Image.open("/home/matija/github/media_player/assets/stop.png").resize((width,height), Image.ANTIALIAS)
         self.stop_img =  ImageTk.PhotoImage(stop_img)
-        shuffle_img = Image.open("/Users/matija/Desktop/Projects/media_player/assets/shuffle.png").resize((width,height), Image.ANTIALIAS)
+        shuffle_img = Image.open("/home/matija/github/media_player/assets/shuffle.png").resize((width,height), Image.ANTIALIAS)
         self.shuffle_img =  ImageTk.PhotoImage(shuffle_img)
-        repeat_img = Image.open("/Users/matija/Desktop/Projects/media_player/assets/repeat.png").resize((width,height), Image.ANTIALIAS)
+        repeat_img = Image.open("/home/matija/github/media_player/assets/repeat.png").resize((width,height), Image.ANTIALIAS)
         self.repeat_img =  ImageTk.PhotoImage(repeat_img)
-        next_img = Image.open("/Users/matija/Desktop/Projects/media_player/assets/forward.png").resize((width,height), Image.ANTIALIAS)
+        next_img = Image.open("/home/matija/github/media_player/assets/forward.png").resize((width,height), Image.ANTIALIAS)
         self.next_img =  ImageTk.PhotoImage(next_img)
-        back_img = Image.open("/Users/matija/Desktop/Projects/media_player/assets/backward.png").resize((width,height), Image.ANTIALIAS)
+        back_img = Image.open("/home/matija/github/media_player/assets/backward.png").resize((width,height), Image.ANTIALIAS)
         self.back_img =  ImageTk.PhotoImage(back_img)
-        vup_img = Image.open("/Users/matija/Desktop/Projects/media_player/assets/volume_up.png").resize((width,height), Image.ANTIALIAS)
+        vup_img = Image.open("/home/matija/github/media_player/assets/volume_up.png").resize((width,height), Image.ANTIALIAS)
         self.vup_img =  ImageTk.PhotoImage(vup_img)
-        vdown_img = Image.open("/Users/matija/Desktop/Projects/media_player/assets/volume_down.png").resize((width,height), Image.ANTIALIAS)
+        vdown_img = Image.open("/home/matija/github/media_player/assets/volume_down.png").resize((width,height), Image.ANTIALIAS)
         self.vdown_img =  ImageTk.PhotoImage(vdown_img)
 
         # Initiating Pygame
@@ -129,7 +129,7 @@ class Player(tk.Tk):
         self.song_slider.grid(row=3, columnspan=5, sticky="EW", ipady=10)
 
         # volume slider
-        self.volume_slider = ttk.Scale(button_container, from_=0, to=1, orient="horizontal", value=1, command=self.volume, length=50)
+        self.volume_slider = ttk.Scale(button_container, from_=0, to=100, orient="horizontal", value=100, command=self.volume, length=50)
         self.volume_slider.grid(row=1, column=2, sticky="EW", ipady=10)
 
         # # temp slide label
@@ -368,13 +368,22 @@ class Player(tk.Tk):
         add_folder.grid(row=0, column=1)
 
     def increase_volume(self):
-        pass
+        print(self.volume_slider.get())
+        if self.volume_slider.get() == 100.0:
+            pass
+        else:
+            self.volume_slider.set(self.volume_slider.get()+5)
+            pygame.mixer.music.set_volume(self.volume_slider.get()/100)
 
     def decrease_volume(self):
-        pass
+        if self.volume_slider.get() == 0.0:
+            pass
+        else:
+            self.volume_slider.set(self.volume_slider.get()-5)
+        pygame.mixer.music.set_volume(self.volume_slider.get()/100)
 
     def volume(self, *args):
-        pygame.mixer.music.set_volume(self.volume_slider.get())
+        pygame.mixer.music.set_volume(self.volume_slider.get()/100)
 
         # get current volume
         # current_volume = pygame.mixer.music.get_volume()
