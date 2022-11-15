@@ -1,17 +1,17 @@
-import tkinter as tk
-from tkinter import ttk
-from tkinter.filedialog import askdirectory, askopenfilename
 import os
-import pygame
+import sndhdr
 import sys
+import time
+import tkinter as tk
 from tkinter import filedialog as fd
 from tkinter import messagebox as mb
-from PIL import Image
-from PIL import ImageTk
-import sndhdr
-from mutagen.mp3 import MP3
-import time
+from tkinter import ttk
+from tkinter.filedialog import askdirectory, askopenfilename
+
+import pygame
 import regex as re
+from mutagen.mp3 import MP3
+from PIL import Image, ImageTk
 
 # background = "#254117"
 # COLOUR_PRIMARY = "#2e3f4f"
@@ -19,6 +19,7 @@ import regex as re
 COLOUR_LIGHT_BACKGROUND = "#848482"
 # COLOUR_LIGHT_TEXT = "#eee"
 # COLOUR_DARK_TEXT = "#8095a8"
+
 
 class Window(ttk.Frame):
     def __init__(self, *args, **kwargs):
@@ -48,8 +49,8 @@ class Window(ttk.Frame):
         menu.add_cascade(label="Add Songs", menu=add_song_menu)
         add_song_menu.add_command(label="Add File")
 
-
         # self.frames = Player
+
 
 root = tk.Tk()
 app = Window(root)
