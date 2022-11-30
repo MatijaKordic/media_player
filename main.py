@@ -1,4 +1,5 @@
 import os
+import random
 import sndhdr
 import sys
 import time
@@ -10,6 +11,7 @@ from tkinter.filedialog import askdirectory, askopenfilename
 
 import pygame
 import regex as re
+import sv_ttk
 from mutagen.mp3 import MP3
 from PIL import Image, ImageTk
 
@@ -25,11 +27,17 @@ class Player(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        style = ttk.Style(self)
-        # style.theme_use("clam")
+        # Set the initial theme
+        self.tk.call("source", "azure.tcl")
+        self.tk.call("source", "forest-light.tcl")
+        self.tk.call("source", "forest-dark.tcl")
+        self.tk.call("set_theme", "dark")
 
-        style.configure("TFrame", background=COLOUR_LIGHT_BACKGROUND)
-        style.configure("Background.TFrame", background=COLOUR_LIGHT_BACKGROUND)
+        # style = ttk.Style(self)
+        # # style.theme_use("clam")
+
+        # style.configure("TFrame", background=COLOUR_LIGHT_BACKGROUND)
+        # style.configure("Background.TFrame", background=COLOUR_LIGHT_BACKGROUND)
         # style.configure("PomodoroButton.TButton",
         #                 background=COLOUR_SECONDARY,
         #                 foreground=COLOUR_LIGHT_TEXT
@@ -46,44 +54,45 @@ class Player(tk.Tk):
         self.geometry("450x850")
         self.minsize(200, 100)
         self.columnconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
+        self.rowconfigure(2, weight=1)
+        self.is_shuffle = "OFF"
 
         width = 25
         height = 25
         play_img = Image.open(
-            "/home/matija/github/media_player/assets/play.png"
+            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/play.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.play_img = ImageTk.PhotoImage(play_img)
         pause_img = Image.open(
-            "/home/matija/github/media_player/assets/pause.png"
+            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/pause.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.pause_img = ImageTk.PhotoImage(pause_img)
         stop_img = Image.open(
-            "/home/matija/github/media_player/assets/stop.png"
+            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/stop.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.stop_img = ImageTk.PhotoImage(stop_img)
         shuffle_img = Image.open(
-            "/home/matija/github/media_player/assets/shuffle.png"
+            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/shuffle.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.shuffle_img = ImageTk.PhotoImage(shuffle_img)
         repeat_img = Image.open(
-            "/home/matija/github/media_player/assets/repeat.png"
+            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/repeat.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.repeat_img = ImageTk.PhotoImage(repeat_img)
         next_img = Image.open(
-            "/home/matija/github/media_player/assets/forward.png"
+            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/forward.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.next_img = ImageTk.PhotoImage(next_img)
         back_img = Image.open(
-            "/home/matija/github/media_player/assets/backward.png"
+            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/backward.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.back_img = ImageTk.PhotoImage(back_img)
         vup_img = Image.open(
-            "/home/matija/github/media_player/assets/volume_up.png"
+            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/volume_up.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.vup_img = ImageTk.PhotoImage(vup_img)
         vdown_img = Image.open(
-            "/home/matija/github/media_player/assets/volume_down.png"
+            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/volume_down.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.vdown_img = ImageTk.PhotoImage(vdown_img)
 
@@ -98,10 +107,10 @@ class Player(tk.Tk):
         # Declaring Status Variable
         self.status = tk.StringVar()
 
-        # menu_container = ttk.Frame(self, width=450, height=10)
-        # menu_container.grid(row=0, column=0, sticky="W")
-        # menu_container.columnconfigure(0, weight=1)
-        # menu_container.rowconfigure(0, weight=1)
+        menu_container = ttk.Frame(self, width=450, height=10)
+        menu_container.grid(row=1, column=0, sticky="NEW")
+        menu_container.columnconfigure(0, weight=0)
+        menu_container.rowconfigure(0, weight=1)
 
         button_container = ttk.Frame(self, width=450, height=100, padding=10)
         button_container.grid(row=0, column=0, columnspan=2, sticky="NEW")
@@ -167,7 +176,11 @@ class Player(tk.Tk):
             command=self.replay,
         )
         shuffle = tk.Button(
-            button_container, image=self.shuffle_img, width=25, borderwidth=0
+            button_container,
+            command=self.shuffle,
+            image=self.shuffle_img,
+            width=25,
+            borderwidth=0,
         )
         pause = tk.Button(
             button_container,
@@ -179,16 +192,34 @@ class Player(tk.Tk):
         play.grid(row=0, column=2)
         stop.grid(row=0, column=3)
         replay.grid(row=1, column=4)
-        # shuffle.grid(row=1, column=5)
+        shuffle.grid(row=1, column=0)
         pause.grid(row=0, column=1)
 
         self.variable = tk.StringVar(value="Add Music")
         self.value = ["Add file", "Add folder"]
         my_menu = tk.OptionMenu(
-            button_container, self.variable, *self.value, command=self.add_folder
+            menu_container, self.variable, *self.value, command=self.add_folder
         )
         self.config(menu=my_menu)
-        my_menu.grid(row=1, column=0)
+        my_menu.grid(row=0, column=0)
+
+        self.theme_variable = tk.StringVar(value="Change Theme")
+        self.theme_values = [
+            "Dark",
+            "Light",
+            "Dark Forest",
+            "Light Forest",
+            "Sunvalley Dark",
+            "Sunvalley Light",
+        ]
+        theme_changer = tk.OptionMenu(
+            menu_container,
+            self.theme_variable,
+            *self.theme_values,
+            command=self.change_theme,
+        )
+        self.config(menu=theme_changer)
+        theme_changer.grid(row=0, column=1)
 
         # add_song_menu = tk.OptionMenu(my_menu, self.variable, *self.value, command=self.add_folder)
         # add_song_menu.grid(row=1, column=0)
@@ -224,7 +255,7 @@ class Player(tk.Tk):
         # self.slider_label.grid(row=4, columnspan=5, ipady=10, sticky="EW")
 
         other_container = ttk.Frame(self, width=450, height=300, padding=10)
-        other_container.grid(row=1, column=0, sticky="NESW")
+        other_container.grid(row=2, column=0, sticky="NESW")
         other_container.columnconfigure(0, weight=1)
         other_container.rowconfigure(0, weight=1)
 
@@ -262,7 +293,8 @@ class Player(tk.Tk):
         current_song = self.playlist.curselection()
         current_song = self.playlist.get(current_song)
         song_path = os.getcwd()
-        current_song = f"{song_path}/{current_song}"
+        # current_song = f"{song_path}/{current_song}"
+        current_song = f"{current_song}"
 
         # get song length with Mutagen
         song_mutagen = MP3(current_song)
@@ -369,7 +401,8 @@ class Player(tk.Tk):
         # Displaying Selected Song title
         song = self.playlist.get(next_track)
         song_path = os.getcwd()
-        next_track_final = f"{song_path}/{song}"
+        # next_track_final = f"{song_path}/{song}"
+        next_track_final = f"{song}"
         END = len(self.items)
         # self.track.set(self.playlist.get(tk.ACTIVE))
         # # Displaying Status
@@ -390,7 +423,8 @@ class Player(tk.Tk):
         # Displaying Selected Song title
         song = self.playlist.get(previous_track)
         song_path = os.getcwd()
-        previous_track_final = f"{song_path}/{song}"
+        # previous_track_final = f"{song_path}/{song}"
+        previous_track_final = f"{song}"
         END = len(self.items)
         # self.track.set(self.playlist.get(tk.ACTIVE))
         # # Displaying Status
@@ -403,12 +437,20 @@ class Player(tk.Tk):
         self.playlist.selection_set(previous_track, last=None)
         self.state = "ON"
 
+    def shuffle(self):
+        if self.is_shuffle == "OFF":
+            self.is_shuffle = "ON"
+        else:
+            self.is_shuffle = "OFF"
+        random.choice(self.items)
+
     def slide(self, *args):
         # converted_song_length = time.strftime('%M:%S', time.gmtime(self.song_length))
         # self.slider_label.config(text=f'{int(self.song_slider.get())} of {converted_song_length}')
         song = self.playlist.get(tk.ACTIVE)
         song_path = os.getcwd()
-        song = f"{song_path}/{song}"
+        # song = f"{song_path}/{song}"
+        song = f"{song}"
         # self.track.set(self.playlist.get(tk.ACTIVE))
         # Displaying Status
         # pygame.mixer.music.load(self.playlist.get(tk.ACTIVE))
@@ -496,10 +538,45 @@ class Player(tk.Tk):
 
         pygame.mixer.music.stop()
 
+    def change_theme(self, *args):
+        # NOTE: The theme's real name is azure-<mode>
+        if self.theme_variable.get() == "Dark":
+            # self.tk.call("source", "azure.tcl")
+            # ttk.Style().theme_use("dark")
+            self.tk.call("set_theme", "dark")
+        elif self.theme_variable.get() == "Light":
+            # self.tk.call("source", "azure.tcl")
+            self.tk.call("set_theme", "light")
+            # ttk.Style().theme_use("light")
+        elif self.theme_variable.get() == "Light Forest":
+            # self.tk.call("source", "forest-light.tcl")
+            # self.tk.call("set_theme", "forest-light")
+            ttk.Style().theme_use("forest-light")
+        elif self.theme_variable.get() == "Dark Forest":
+            # self.tk.call("source", "forest-dark.tcl")
+            # self.theme_use("forest-dark")
+            ttk.Style().theme_use("forest-dark")
+            # self.tk.call("set_theme", "forest-dark")
+        elif self.theme_variable.get() == "Sunvalley Dark":
+            sv_ttk.set_theme("dark")
+        elif self.theme_variable.get() == "Sunvalley Light":
+            sv_ttk.set_theme("light")
+        # if root.tk.call("ttk::style", "theme", "use") == "azure-dark":
+        #     # Set light theme
+        #     root.tk.call("set_theme", "light")
+        # elif root.tk.call("ttk::style", "theme", "use") == "azure-light":
+        #     # Set dark theme
+        #     root.tk.call("set_theme", "light")
+        # elif root.tk.call("ttk::style", "theme", "use") == "forest-light":
+        #     root.tk.call("set_theme", "forest-light")
+        # elif root.tk.call("ttk::style", "theme", "use") == "forest-dark":
+        #     root.tk.call("set_theme", "forest-dark")
+        # elif root.tk.call("ttk::style", "theme", "use") == "forest-light":
+        #     root.tk.call("set_theme", "forest-light")
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     # root = tk.Tk()
     root = Player()
-
 
     root.mainloop()
