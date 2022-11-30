@@ -280,6 +280,9 @@ class Player(tk.Tk):
 
         scrollbar.grid(column=1, row=0, sticky="ns")
 
+        # global stopped
+        self.stopped = True
+
     # Grab song length time
     def song_data(self):
         if self.state == "Paused":
@@ -305,6 +308,8 @@ class Player(tk.Tk):
             self.status_bar.config(
                 text=f"Time Elapsed: {converted_song_length}/ {converted_song_length} "
             )
+            self.stopped == True
+            self.next()
         elif self.state == "Paused":
             pass
         elif int(self.song_slider.get()) == int(current_time):
@@ -339,6 +344,10 @@ class Player(tk.Tk):
             pygame.mixer.music.unpause()
             self.state = "ON"
             self.song_data()
+        if self.stopped:
+            pygame.mixer.music.unpause()
+            self.state = "ON"
+            self.song_data()
         else:
             # Displaying Selected Song title
             # song = self.playlist.get(tk.ACTIVE)
@@ -362,9 +371,6 @@ class Player(tk.Tk):
         # slider_position = int(self.song_length)
         # self.song_slider.config(to=slider_position, value=0)
 
-    global stopped
-    stopped = False
-
     def stop(self):
         self.status_bar.config(text="")
         self.song_slider.config(value=0)
@@ -373,8 +379,8 @@ class Player(tk.Tk):
         # Clear the status bar
         self.status_bar.config(text="")
 
-        global stopped
-        stopped = True
+        # global stopped
+        self.stopped = True
 
     def pause(self, *args):
         pygame.mixer.music.pause()
@@ -394,6 +400,8 @@ class Player(tk.Tk):
         self.song_data()
 
     def next(self):
+        if self.stopped:
+            self.stopped = False
         self.status_bar.config(text="")
         self.song_slider.config(value=0)
         next_track = self.playlist.curselection()
@@ -539,40 +547,19 @@ class Player(tk.Tk):
         pygame.mixer.music.stop()
 
     def change_theme(self, *args):
-        # NOTE: The theme's real name is azure-<mode>
+        """Function to choose between different themes"""
         if self.theme_variable.get() == "Dark":
-            # self.tk.call("source", "azure.tcl")
-            # ttk.Style().theme_use("dark")
             self.tk.call("set_theme", "dark")
         elif self.theme_variable.get() == "Light":
-            # self.tk.call("source", "azure.tcl")
             self.tk.call("set_theme", "light")
-            # ttk.Style().theme_use("light")
         elif self.theme_variable.get() == "Light Forest":
-            # self.tk.call("source", "forest-light.tcl")
-            # self.tk.call("set_theme", "forest-light")
             ttk.Style().theme_use("forest-light")
         elif self.theme_variable.get() == "Dark Forest":
-            # self.tk.call("source", "forest-dark.tcl")
-            # self.theme_use("forest-dark")
             ttk.Style().theme_use("forest-dark")
-            # self.tk.call("set_theme", "forest-dark")
         elif self.theme_variable.get() == "Sunvalley Dark":
             sv_ttk.set_theme("dark")
         elif self.theme_variable.get() == "Sunvalley Light":
             sv_ttk.set_theme("light")
-        # if root.tk.call("ttk::style", "theme", "use") == "azure-dark":
-        #     # Set light theme
-        #     root.tk.call("set_theme", "light")
-        # elif root.tk.call("ttk::style", "theme", "use") == "azure-light":
-        #     # Set dark theme
-        #     root.tk.call("set_theme", "light")
-        # elif root.tk.call("ttk::style", "theme", "use") == "forest-light":
-        #     root.tk.call("set_theme", "forest-light")
-        # elif root.tk.call("ttk::style", "theme", "use") == "forest-dark":
-        #     root.tk.call("set_theme", "forest-dark")
-        # elif root.tk.call("ttk::style", "theme", "use") == "forest-light":
-        #     root.tk.call("set_theme", "forest-light")
 
 
 if __name__ == "__main__":
