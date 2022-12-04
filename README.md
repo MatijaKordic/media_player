@@ -11,9 +11,9 @@ Current bugs:
 
 You will need to preinstall anaconda. Docker is comming up soon. 
 
-'''conda env create -f environment.yml'''
+```conda env create -f environment.yml```
 
 ## Running the player
 
-'''python main.py'''
+```python main.py```
 
