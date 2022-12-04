@@ -17,3 +17,12 @@ You will need to preinstall anaconda. Docker is comming up soon.
 
 ```python main.py```
 
+## Shootouts
+
+Themes used here can be found:
+- https://github.com/rdbende/Sun-Valley-ttk-theme
+- https://github.com/rdbende/Azure-ttk-theme
+- https://github.com/rdbende/Forest-ttk-theme
+
+Images used for media player are attributed to:
+<a href="http://www.freepik.com">Designed by Yurlick / Freepik</a>
