@@ -28,10 +28,10 @@ class Player(tk.Tk):
         super().__init__(*args, **kwargs)
 
         # Set the initial theme
-        self.tk.call("source", "azure.tcl")
-        self.tk.call("source", "forest-light.tcl")
-        self.tk.call("source", "forest-dark.tcl")
-        self.tk.call("set_theme", "dark")
+        self.tk.call("source", "player_themes.tcl")
+        # self.tk.call("source", "forest-light.tcl")
+        # self.tk.call("source", "forest-dark.tcl")
+        self.tk.call("set_theme", "azure-dark")
 
         # style = ttk.Style(self)
         # # style.theme_use("clam")
@@ -344,7 +344,7 @@ class Player(tk.Tk):
             pygame.mixer.music.unpause()
             self.state = "ON"
             self.song_data()
-        if self.stopped:
+        elif self.stopped:
             pygame.mixer.music.unpause()
             self.state = "ON"
             self.song_data()
@@ -549,17 +549,19 @@ class Player(tk.Tk):
     def change_theme(self, *args):
         """Function to choose between different themes"""
         if self.theme_variable.get() == "Dark":
-            self.tk.call("set_theme", "dark")
+            self.tk.call("set_theme", "azure-dark")
         elif self.theme_variable.get() == "Light":
-            self.tk.call("set_theme", "light")
+            self.tk.call("set_theme", "azure-light")
         elif self.theme_variable.get() == "Light Forest":
             ttk.Style().theme_use("forest-light")
         elif self.theme_variable.get() == "Dark Forest":
             ttk.Style().theme_use("forest-dark")
         elif self.theme_variable.get() == "Sunvalley Dark":
-            sv_ttk.set_theme("dark")
+            self.tk.call("set_theme", "dark")
+            # sv_ttk.set_theme("dark")
         elif self.theme_variable.get() == "Sunvalley Light":
-            sv_ttk.set_theme("light")
+            self.tk.call("set_theme", "light")
+            # sv_ttk.set_theme("light")
 
 
 if __name__ == "__main__":
