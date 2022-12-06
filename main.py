@@ -107,7 +107,7 @@ class Player(tk.Tk):
         # Declaring Status Variable
         self.status = tk.StringVar()
 
-        menu_container = ttk.Frame(self, width=450, height=10)
+        menu_container = ttk.Frame(self, width=450, height=10, padding=10)
         menu_container.grid(row=1, column=0, sticky="NEW")
         menu_container.columnconfigure(0, weight=0)
         menu_container.rowconfigure(0, weight=1)
@@ -195,16 +195,23 @@ class Player(tk.Tk):
         shuffle.grid(row=1, column=0)
         pause.grid(row=0, column=1)
 
-        self.variable = tk.StringVar(value="Add Music")
-        self.value = ["Add file", "Add folder"]
-        my_menu = tk.OptionMenu(
-            menu_container, self.variable, *self.value, command=self.add_folder
+        self.variable = tk.StringVar(master=menu_container, value="Add Music")
+        self.value = ["Add Music", "Add file", "Add folder"]
+        my_menu = ttk.OptionMenu(
+            menu_container,
+            self.variable,
+            self.value[0],
+            *self.value[1:],
+            command=self.add_folder,
         )
         self.config(menu=my_menu)
-        my_menu.grid(row=0, column=0)
+        # my_menu.config(width=12, foreground="#217346")
+        my_menu.config(width=12)
+        my_menu.grid(row=0, column=0, sticky="NE")
 
         self.theme_variable = tk.StringVar(value="Change Theme")
         self.theme_values = [
+            "Change Theme",
             "Dark",
             "Light",
             "Dark Forest",
@@ -212,14 +219,17 @@ class Player(tk.Tk):
             "Sunvalley Dark",
             "Sunvalley Light",
         ]
-        theme_changer = tk.OptionMenu(
+        theme_changer = ttk.OptionMenu(
             menu_container,
             self.theme_variable,
-            *self.theme_values,
+            self.theme_values[0],
+            *self.theme_values[1:],
             command=self.change_theme,
         )
         self.config(menu=theme_changer)
-        theme_changer.grid(row=0, column=1)
+        theme_changer.config(width=12)
+        # theme_changer.config(width=100, foreground="#217346")
+        theme_changer.grid(row=0, column=1, padx=10, sticky="N")
 
         # add_song_menu = tk.OptionMenu(my_menu, self.variable, *self.value, command=self.add_folder)
         # add_song_menu.grid(row=1, column=0)
