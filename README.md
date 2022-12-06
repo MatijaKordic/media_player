@@ -4,14 +4,16 @@ The media player is functional but still in development.
 
 Current bugs:
 - Time on the slider gets corrupted after sliding through the song. 
-- Shuffle not fully operational
-- Styles not fully operational
+- Repeat button not functional
 
 ## Installing env
 
 You will need to preinstall anaconda. Docker is comming up soon. 
 
 ```conda env create -f environment.yml```
+
+Activating env:
+```conda activate media_player```
 
 ## Running the player
 
