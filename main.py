@@ -1,7 +1,6 @@
 import os
 import random
 import sndhdr
-import sys
 import time
 import tkinter as tk
 from tkinter import filedialog as fd
@@ -10,8 +9,6 @@ from tkinter import ttk
 from tkinter.filedialog import askdirectory, askopenfilename
 
 import pygame
-import regex as re
-import sv_ttk
 from mutagen.mp3 import MP3
 from PIL import Image, ImageTk
 
@@ -419,53 +416,91 @@ class Player(tk.Tk):
             self.stopped = False
         self.status_bar.config(text="")
         self.song_slider.config(value=0)
-        next_track = self.playlist.curselection()
-        next_track = next_track[0] + 1
-        # Displaying Selected Song title
-        song = self.playlist.get(next_track)
-        song_path = os.getcwd()
-        # next_track_final = f"{song_path}/{song}"
-        next_track_final = f"{song}"
-        END = len(self.items)
-        # self.track.set(self.playlist.get(tk.ACTIVE))
-        # # Displaying Status
-        # self.status.set("-Playing")
-        pygame.mixer.music.load(next_track_final)
-        pygame.mixer.music.play(loops=0)
-        # self.var.set(self.playlist.get(tk.ACTIVE))
-        self.playlist.selection_clear(0, END)
-        self.playlist.activate(next_track)
-        self.playlist.selection_set(next_track, last=None)
-        self.state = "ON"
+        if self.is_shuffle == "ON":
+            "left is to remove the initial song from shuffle items"
+            current_track = self.playlist.curselection()
+            current_track_name = self.playlist.get(current_track)
+            current_track = self.items.index(current_track_name)
+            next_track = current_track + 1
+            next_track_name = self.items[next_track]
+            song_try = self.playlist.get(0, "end").index(next_track_name)
+            song = self.playlist.get(song_try)
+            next_track_final = f"{song}"
+            END = len(self.items)
+            pygame.mixer.music.load(next_track_final)
+            pygame.mixer.music.play(loops=0)
+            # self.var.set(self.playlist.get(tk.ACTIVE))
+            self.playlist.selection_clear(0, END)
+            self.playlist.activate(song_try)
+            self.playlist.selection_set(song_try, last=None)
+            self.state = "ON"
+        else:
+            next_track = self.playlist.curselection()
+            next_track = next_track[0] + 1
+            # Displaying Selected Song title
+            song = self.playlist.get(next_track)
+            next_track_final = f"{song}"
+            END = len(self.items)
+            # self.track.set(self.playlist.get(tk.ACTIVE))
+            # # Displaying Status
+            # self.status.set("-Playing")
+            pygame.mixer.music.load(next_track_final)
+            pygame.mixer.music.play(loops=0)
+            # self.var.set(self.playlist.get(tk.ACTIVE))
+            self.playlist.selection_clear(0, END)
+            self.playlist.activate(next_track)
+            self.playlist.selection_set(next_track, last=None)
+            self.state = "ON"
 
     def back(self):
         self.status_bar.config(text="")
         self.song_slider.config(value=0)
-        previous_track = self.playlist.curselection()
-        previous_track = previous_track[0] - 1
-        # Displaying Selected Song title
-        song = self.playlist.get(previous_track)
-        song_path = os.getcwd()
-        # previous_track_final = f"{song_path}/{song}"
-        previous_track_final = f"{song}"
-        END = len(self.items)
-        # self.track.set(self.playlist.get(tk.ACTIVE))
-        # # Displaying Status
-        # self.status.set("-Playing")
-        pygame.mixer.music.load(previous_track_final)
-        pygame.mixer.music.play(loops=0)
-        # self.var.set(self.playlist.get(tk.ACTIVE))
-        self.playlist.selection_clear(0, END)
-        self.playlist.activate(previous_track)
-        self.playlist.selection_set(previous_track, last=None)
-        self.state = "ON"
+        if self.is_shuffle == "ON":
+            "left is to remove the initial song from shuffle items"
+            current_track = self.playlist.curselection()
+            current_track_name = self.playlist.get(current_track)
+            current_track = self.items.index(current_track_name)
+            previous_track = current_track - 1
+            previous_track_name = self.items[previous_track]
+            song_try = self.playlist.get(0, "end").index(previous_track_name)
+            song = self.playlist.get(song_try)
+            previous_track_final = f"{song}"
+            END = len(self.items)
+            pygame.mixer.music.load(previous_track_final)
+            pygame.mixer.music.play(loops=0)
+            # self.var.set(self.playlist.get(tk.ACTIVE))
+            self.playlist.selection_clear(0, END)
+            self.playlist.activate(song_try)
+            self.playlist.selection_set(song_try, last=None)
+            self.state = "ON"
+        else:
+            previous_track = self.playlist.curselection()
+            previous_track = previous_track[0] - 1
+            # Displaying Selected Song title
+            song = self.playlist.get(previous_track)
+            song_path = os.getcwd()
+            # previous_track_final = f"{song_path}/{song}"
+            previous_track_final = f"{song}"
+            END = len(self.items)
+            # self.track.set(self.playlist.get(tk.ACTIVE))
+            # # Displaying Status
+            # self.status.set("-Playing")
+            pygame.mixer.music.load(previous_track_final)
+            pygame.mixer.music.play(loops=0)
+            # self.var.set(self.playlist.get(tk.ACTIVE))
+            self.playlist.selection_clear(0, END)
+            self.playlist.activate(previous_track)
+            self.playlist.selection_set(previous_track, last=None)
+            self.state = "ON"
 
     def shuffle(self):
         if self.is_shuffle == "OFF":
             self.is_shuffle = "ON"
+            random.shuffle(self.items)
+            print(self.items)
         else:
             self.is_shuffle = "OFF"
-        random.choice(self.items)
+        # random.choice(self.items)
 
     def slide(self, *args):
         # converted_song_length = time.strftime('%M:%S', time.gmtime(self.song_length))
