@@ -355,7 +355,12 @@ class Player(tk.Tk):
             self.state = "ON"
             self.song_data()
         elif self.stopped:
-            pygame.mixer.music.unpause()
+            self.stopped = False
+            self.track.set(self.playlist.get(tk.ACTIVE))
+            pygame.mixer.music.load(self.playlist.get(tk.ACTIVE))
+            pygame.mixer.music.play()
+            self.status.set("-Playing")
+            pygame.mixer.music.play()
             self.state = "ON"
             self.song_data()
         else:
