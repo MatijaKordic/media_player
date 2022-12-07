@@ -1,4 +1,4 @@
-### Media Player 
+## Media Player 
 
 The media player is functional but still in development. 
 
