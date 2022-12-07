@@ -57,41 +57,41 @@ class Player(tk.Tk):
 
         width = 25
         height = 25
-        play_img = Image.open(
-            "./assets/play.png"
-        ).resize((width, height), Image.ANTIALIAS)
+        play_img = Image.open("./assets/play.png").resize(
+            (width, height), Image.ANTIALIAS
+        )
         self.play_img = ImageTk.PhotoImage(play_img)
-        pause_img = Image.open(
-            "./assets/pause.png"
-        ).resize((width, height), Image.ANTIALIAS)
+        pause_img = Image.open("./assets/pause.png").resize(
+            (width, height), Image.ANTIALIAS
+        )
         self.pause_img = ImageTk.PhotoImage(pause_img)
-        stop_img = Image.open(
-            "./assets/stop.png"
-        ).resize((width, height), Image.ANTIALIAS)
+        stop_img = Image.open("./assets/stop.png").resize(
+            (width, height), Image.ANTIALIAS
+        )
         self.stop_img = ImageTk.PhotoImage(stop_img)
-        shuffle_img = Image.open(
-            "./assets/shuffle.png"
-        ).resize((width, height), Image.ANTIALIAS)
+        shuffle_img = Image.open("./assets/shuffle.png").resize(
+            (width, height), Image.ANTIALIAS
+        )
         self.shuffle_img = ImageTk.PhotoImage(shuffle_img)
-        repeat_img = Image.open(
-            "./assets/repeat.png"
-        ).resize((width, height), Image.ANTIALIAS)
+        repeat_img = Image.open("./assets/repeat.png").resize(
+            (width, height), Image.ANTIALIAS
+        )
         self.repeat_img = ImageTk.PhotoImage(repeat_img)
-        next_img = Image.open(
-            "./assets/forward.png"
-        ).resize((width, height), Image.ANTIALIAS)
+        next_img = Image.open("./assets/forward.png").resize(
+            (width, height), Image.ANTIALIAS
+        )
         self.next_img = ImageTk.PhotoImage(next_img)
-        back_img = Image.open(
-            "./assets/backward.png"
-        ).resize((width, height), Image.ANTIALIAS)
+        back_img = Image.open("./assets/backward.png").resize(
+            (width, height), Image.ANTIALIAS
+        )
         self.back_img = ImageTk.PhotoImage(back_img)
-        vup_img = Image.open(
-            "./assets/volume_up.png"
-        ).resize((width, height), Image.ANTIALIAS)
+        vup_img = Image.open("./assets/volume_up.png").resize(
+            (width, height), Image.ANTIALIAS
+        )
         self.vup_img = ImageTk.PhotoImage(vup_img)
-        vdown_img = Image.open(
-            "./assets/volume_down.png"
-        ).resize((width, height), Image.ANTIALIAS)
+        vdown_img = Image.open("./assets/volume_down.png").resize(
+            (width, height), Image.ANTIALIAS
+        )
         self.vdown_img = ImageTk.PhotoImage(vdown_img)
 
         # Initiating Pygame
