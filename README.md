@@ -10,6 +10,9 @@ Current bugs:
 
 You will need to preinstall anaconda. Docker is comming up soon. 
 
+Conda install:
+Follow the <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html">Anaconda Download</a>
+
 ```conda env create -f environment.yml```
 
 Activating env:
