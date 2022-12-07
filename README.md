@@ -4,7 +4,8 @@ The media player is functional but still in development.
 
 Current bugs:
 - Time on the slider gets corrupted after sliding through the song. 
-- Repeat button not functional
+- Need to add functionality to show repeat and shuffle are on/off. 
+- Need to add functionality to repeat one/all songs. 
 
 ## Installing env
 
