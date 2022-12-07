@@ -58,39 +58,39 @@ class Player(tk.Tk):
         width = 25
         height = 25
         play_img = Image.open(
-            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/play.png"
+            "./assets/play.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.play_img = ImageTk.PhotoImage(play_img)
         pause_img = Image.open(
-            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/pause.png"
+            "./assets/pause.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.pause_img = ImageTk.PhotoImage(pause_img)
         stop_img = Image.open(
-            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/stop.png"
+            "./assets/stop.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.stop_img = ImageTk.PhotoImage(stop_img)
         shuffle_img = Image.open(
-            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/shuffle.png"
+            "./assets/shuffle.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.shuffle_img = ImageTk.PhotoImage(shuffle_img)
         repeat_img = Image.open(
-            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/repeat.png"
+            "./assets/repeat.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.repeat_img = ImageTk.PhotoImage(repeat_img)
         next_img = Image.open(
-            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/forward.png"
+            "./assets/forward.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.next_img = ImageTk.PhotoImage(next_img)
         back_img = Image.open(
-            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/backward.png"
+            "./assets/backward.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.back_img = ImageTk.PhotoImage(back_img)
         vup_img = Image.open(
-            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/volume_up.png"
+            "./assets/volume_up.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.vup_img = ImageTk.PhotoImage(vup_img)
         vdown_img = Image.open(
-            "/Users/matija/Desktop/Sylvera/Github/media_player/assets/volume_down.png"
+            "./assets/volume_down.png"
         ).resize((width, height), Image.ANTIALIAS)
         self.vdown_img = ImageTk.PhotoImage(vdown_img)
 
