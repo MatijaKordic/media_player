@@ -53,6 +53,7 @@ class Player(tk.Tk):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(2, weight=1)
         self.is_shuffle = "OFF"
+        self.is_replay = "OFF"
 
         width = 25
         height = 25
@@ -166,7 +167,6 @@ class Player(tk.Tk):
         )
         replay = tk.Button(
             button_container,
-            text="Replay",
             image=self.repeat_img,
             width=25,
             borderwidth=0,
@@ -316,7 +316,10 @@ class Player(tk.Tk):
                 text=f"Time Elapsed: {converted_song_length}/ {converted_song_length} "
             )
             self.stopped == True
-            self.next()
+            if self.is_replay == "ON":
+                pass
+            else:
+                self.next()
         elif self.state == "Paused":
             pass
         elif int(self.song_slider.get()) == int(current_time):
@@ -400,9 +403,12 @@ class Player(tk.Tk):
         print(f"State: {self.state}")
 
     def replay(self, *args):
-        self.track.set(self.playlist.get(tk.ACTIVE))
         # Displaying Status
-        pygame.mixer.music.load(self.playlist.get(tk.ACTIVE))
+        if self.is_replay == "OFF":
+            self.is_replay = "ON"
+        if self.state == "OFF" or self.state == "Paused":
+            self.track.set(self.playlist.get(tk.ACTIVE))
+            pygame.mixer.music.load(self.playlist.get(tk.ACTIVE))
         # pygame.mixer.music.load(song)
         # self.track.set(self.playlist.get(tk.ACTIVE))
         # # Displaying Status
