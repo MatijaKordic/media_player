@@ -6,6 +6,7 @@ Current bugs:
 - Time on the slider gets corrupted after sliding through the song. 
 - Need to add functionality to show repeat and shuffle are on/off. 
 - Need to add functionality to repeat one/all songs. 
+- Need to add functionality that supports drag & drop of music to player. 
 
 ## Installing env
 
