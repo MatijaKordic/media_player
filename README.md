@@ -1,6 +1,6 @@
 ## Media Player 
 
-The media player is functional but still in development. 
+The media player is functional but still in development. The assets folder contains songs for testing purposes. 
 
 Current bugs:
 - Time on the slider gets corrupted after sliding through the song. 
